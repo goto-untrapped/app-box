@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+.calc-layout {
+  /* background-color: green; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  width: 5vw;
+  height: 10vh;
+  margin: 0.25em;
+}
+
+span[name="result"] {
+  border: 1px solid black;
+  font-size: 2em;
+  padding-left: 5%;
+  padding-right: 5%;
+  margin-bottom: 1%;
+}
