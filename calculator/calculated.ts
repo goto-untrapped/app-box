@@ -1,30 +1,34 @@
 // for calclation
-enum Operations {
+enum CalcMode {
   initialized,
+  displayNumber,
   add,
   subtract,
   multiply,
   divide,
   equaled,
 }
-let calcMode: Operations = Operations.initialized;
+let calcMode: CalcMode = CalcMode.initialized;
 function calcModeIsInitialized() {
-  calcMode = Operations.initialized;
+  calcMode = CalcMode.initialized;
+}
+function calcModeIsDisplayNumber() {
+  calcMode = CalcMode.displayNumber;
 }
 function calcModeIsAdd() {
-  calcMode = Operations.add;
+  calcMode = CalcMode.add;
 }
 function calcModeIsSubtract() {
-  calcMode = Operations.subtract;
+  calcMode = CalcMode.subtract;
 }
 function calcModeIsMultiply() {
-  calcMode = Operations.multiply;
+  calcMode = CalcMode.multiply;
 }
 function calcModeIsDivide() {
-  calcMode = Operations.divide;
+  calcMode = CalcMode.divide;
 }
 function calcModeIsEqualed() {
-  calcMode = Operations.equaled;
+  calcMode = CalcMode.equaled;
 }
 
 // record former display number
@@ -37,9 +41,11 @@ function updateFormerNumber(inputNumber: String) {
 document.querySelectorAll(".input-number").forEach((button) => {
   button.addEventListener("click", (event) => {
     const target = event.currentTarget! as HTMLElement;
-    if (calcMode != Operations.initialized) {
+    if (calcMode != CalcMode.displayNumber) {
       clearDisplay();
     }
+    calcModeIsDisplayNumber();
+
     const inputNumber: string = target.textContent!;
     removeTopZero();
     displayContinuousNumber(inputNumber)
@@ -81,19 +87,19 @@ document.getElementById("divide")!.addEventListener("click", function () {
 // =
 document.getElementById("equal")!.addEventListener("click", function () {
   switch (calcMode) {
-    case Operations.add: {
+    case CalcMode.add: {
       displayAddedNumber();
       break;
     }
-    case Operations.subtract: {
+    case CalcMode.subtract: {
       displaySubtractedNumber();
       break;
     }
-    case Operations.multiply: {
+    case CalcMode.multiply: {
       displayMultipliedNumber();
       break;
     }
-    case Operations.divide: {
+    case CalcMode.divide: {
       displayDividedNumber();
       break;
     }
