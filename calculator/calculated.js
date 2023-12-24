@@ -1,18 +1,37 @@
 // for calclation
 var Operations;
 (function (Operations) {
-    Operations["initialized"] = "";
-    Operations["plus"] = "+";
+    Operations[Operations["initialized"] = 0] = "initialized";
+    Operations[Operations["add"] = 1] = "add";
+    Operations[Operations["subtract"] = 2] = "subtract";
+    Operations[Operations["multiply"] = 3] = "multiply";
+    Operations[Operations["divide"] = 4] = "divide";
+    Operations[Operations["equaled"] = 5] = "equaled";
 })(Operations || (Operations = {}));
 var calcMode = Operations.initialized;
 function calcModeIsInitialized() {
     calcMode = Operations.initialized;
 }
-function calcModeIsPlus() {
-    calcMode = Operations.plus;
+function calcModeIsAdd() {
+    calcMode = Operations.add;
+}
+function calcModeIsSubtract() {
+    calcMode = Operations.subtract;
+}
+function calcModeIsMultiply() {
+    calcMode = Operations.multiply;
+}
+function calcModeIsDivide() {
+    calcMode = Operations.divide;
+}
+function calcModeIsEqualed() {
+    calcMode = Operations.equaled;
 }
 // record former display number
 var formerNumber = 0;
+function updateFormerNumber(inputNumber) {
+    formerNumber = Number(inputNumber);
+}
 // set number to display
 document.querySelectorAll(".input-number").forEach(function (button) {
     button.addEventListener("click", function (event) {
@@ -21,40 +40,115 @@ document.querySelectorAll(".input-number").forEach(function (button) {
             clearDisplay();
         }
         var inputNumber = target.textContent;
-        displayAddedNumber(inputNumber);
+        removeTopZero();
+        displayContinuousNumber(inputNumber);
     });
 });
-// plus
-document.getElementById("plus").addEventListener("click", function () {
+// +
+document.getElementById("add").addEventListener("click", function () {
     var display = numberDisplay();
-    formerNumber = Number(display.textContent);
-    calcModeIsPlus();
+    updateFormerNumber(display.value);
+    calcModeIsAdd();
 });
-// equal
+// -
+document.getElementById("subtract").addEventListener("click", function () {
+    var display = numberDisplay();
+    updateFormerNumber(display.value);
+    calcModeIsSubtract();
+});
+// ×
+document.getElementById("multiply").addEventListener("click", function () {
+    var display = numberDisplay();
+    updateFormerNumber(display.value);
+    calcModeIsMultiply();
+});
+// ÷
+document.getElementById("divide").addEventListener("click", function () {
+    var display = numberDisplay();
+    updateFormerNumber(display.value);
+    calcModeIsDivide();
+});
+// =
 document.getElementById("equal").addEventListener("click", function () {
-    if (calcMode = Operations.plus) {
-        displayPlusedNumber();
+    switch (calcMode) {
+        case Operations.add: {
+            displayAddedNumber();
+            break;
+        }
+        case Operations.subtract: {
+            displaySubtractedNumber();
+            break;
+        }
+        case Operations.multiply: {
+            displayMultipliedNumber();
+            break;
+        }
+        case Operations.divide: {
+            displayDividedNumber();
+            break;
+        }
     }
-    calcModeIsInitialized();
+    calcModeIsEqualed();
 });
-function displayPlusedNumber() {
+// C (clear)
+document.getElementById("clear").addEventListener("click", function () {
+    clearDisplay();
+});
+// calculation
+// A + B
+function displayAddedNumber() {
     var display = numberDisplay();
-    var calcedNumber = formerNumber + Number(display.textContent);
+    var calcedNumber = formerNumber + Number(display.value);
+    var calcedNumberStr = calcedNumber.toString();
+    displayNumber(calcedNumberStr);
+}
+// A - B
+function displaySubtractedNumber() {
+    var display = numberDisplay();
+    var calcedNumber = formerNumber - Number(display.value);
+    var calcedNumberStr = calcedNumber.toString();
+    displayNumber(calcedNumberStr);
+}
+// A × B
+function displayMultipliedNumber() {
+    var display = numberDisplay();
+    var calcedNumber = formerNumber * Number(display.value);
+    var calcedNumberStr = calcedNumber.toString();
+    displayNumber(calcedNumberStr);
+}
+// A ÷ B
+function displayDividedNumber() {
+    var display = numberDisplay();
+    var inputNumber = Number(display.value);
+    if (inputNumber == 0) {
+        return;
+    }
+    var calcedNumber = formerNumber / Number(display.value);
     var calcedNumberStr = calcedNumber.toString();
     displayNumber(calcedNumberStr);
 }
 function displayNumber(inputNumber) {
     var display = numberDisplay();
-    display.textContent = inputNumber;
+    display.value = inputNumber;
 }
-function displayAddedNumber(inputNumber) {
+function displayContinuousNumber(inputNumber) {
     var display = numberDisplay();
-    display.textContent += inputNumber;
+    display.value += inputNumber;
 }
 function clearDisplay() {
     var display = numberDisplay();
-    display.textContent = "";
+    display.value = "";
 }
 function numberDisplay() {
-    return document.querySelector('span[name="displayed"]');
+    return document.getElementById("displayed");
+}
+// format display number: "02" => "2"
+function removeTopZero() {
+    var target = document.getElementById("displayed");
+    var regex = /^0+/;
+    var isValid = regex.test(target.value);
+    if (isValid) {
+        var replaced = target.value.replace(/^0+/, "");
+        target.value = replaced;
+    }
 }
