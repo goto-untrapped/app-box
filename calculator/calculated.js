@@ -54,9 +54,21 @@ document.querySelectorAll(".input-number").forEach(function (button) {
         displayModeIsDisplayNumber();
         var inputNumber = target.textContent;
         removeTopZero();
-        displayContinuousNumber(inputNumber);
+        var canUpdateNumber = canUpdate(inputNumber);
+        if (canUpdateNumber) {
+            displayContinuousNumber(inputNumber);
+        }
     });
 });
+var MAX_DISPLAY_LENGTH = 8;
+// number length can display <= 8
+function canUpdate(inputNumber) {
+    var display = numberDisplay();
+    if (MAX_DISPLAY_LENGTH < (display.value + inputNumber).length) {
+        return false;
+    }
+    return true;
+}
 // +
 document.getElementById("add").addEventListener("click", function () {
     var display = numberDisplay();
@@ -106,6 +118,7 @@ document.getElementById("equal").addEventListener("click", function () {
         }
     }
     calcModeIsEqualed();
+    displayModeIsNotDisplayNumber();
 });
 // C (clear)
 document.getElementById("clear").addEventListener("click", function () {
@@ -145,7 +158,12 @@ function displayDividedNumber() {
     displayNumber(calcedNumberStr);
 }
 function displayNumber(inputNumber) {
+    // display ERR or calced number
     var display = numberDisplay();
+    if (MAX_DISPLAY_LENGTH < inputNumber.length) {
+        display.value = "ERR";
+        return;
+    }
     display.value = inputNumber;
 }
 function displayContinuousNumber(inputNumber) {

@@ -56,9 +56,24 @@ document.querySelectorAll(".input-number").forEach((button) => {
 
     const inputNumber: string = target.textContent!;
     removeTopZero();
-    displayContinuousNumber(inputNumber)
+    const canUpdateNumber = canUpdate(inputNumber);
+    if (canUpdateNumber) {
+      displayContinuousNumber(inputNumber)
+    }
+
   })
 })
+
+const MAX_DISPLAY_LENGTH = 8
+// number length can display <= 8
+function canUpdate(inputNumber: string) {
+  const display = numberDisplay();
+
+  if (MAX_DISPLAY_LENGTH < (display.value + inputNumber).length) {
+    return false
+  }
+  return true;
+}
 
 // +
 document.getElementById("add")!.addEventListener("click", function () {
@@ -118,6 +133,7 @@ document.getElementById("equal")!.addEventListener("click", function () {
   }
 
   calcModeIsEqualed();
+  displayModeIsNotDisplayNumber();
 });
 
 // C (clear)
@@ -163,7 +179,12 @@ function displayDividedNumber() {
 }
 
 function displayNumber(inputNumber: string) {
+  // display ERR or calced number
   let display = numberDisplay();
+  if (MAX_DISPLAY_LENGTH < inputNumber.length) {
+    display.value = "ERR";
+    return;
+  }
   display.value = inputNumber;
 }
 
@@ -191,3 +212,4 @@ function removeTopZero() {
     target.value = replaced;
   }
 }
+
