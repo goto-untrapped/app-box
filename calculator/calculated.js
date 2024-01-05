@@ -76,7 +76,7 @@ document.getElementById("add").addEventListener("click", function () {
     // update situation
     var display = numberDisplay();
     updateFormerNumber(display.value);
-    // update calc status
+    // update status
     calcModeIsAdd();
     displayModeIsNotDisplayNumber();
 });
@@ -87,7 +87,7 @@ document.getElementById("subtract").addEventListener("click", function () {
     // update situation
     var display = numberDisplay();
     updateFormerNumber(display.value);
-    // update calc status
+    // update status
     calcModeIsSubtract();
     displayModeIsNotDisplayNumber();
 });
@@ -98,7 +98,7 @@ document.getElementById("multiply").addEventListener("click", function () {
     // update situation
     var display = numberDisplay();
     updateFormerNumber(display.value);
-    // update calc status
+    // update status
     calcModeIsMultiply();
     displayModeIsNotDisplayNumber();
 });
@@ -109,31 +109,15 @@ document.getElementById("divide").addEventListener("click", function () {
     // update situation
     var display = numberDisplay();
     updateFormerNumber(display.value);
-    // update calc status
+    // update status
     calcModeIsDivide();
     displayModeIsNotDisplayNumber();
 });
 // =
 document.getElementById("equal").addEventListener("click", function () {
+    // calc by current situation
     calcByCalcMode(calcMode);
-    // switch (calcMode) {
-    //   case CalcMode.add: {
-    //     displayAddedNumber();
-    //     break;
-    //   }
-    //   case CalcMode.subtract: {
-    //     displaySubtractedNumber();
-    //     break;
-    //   }
-    //   case CalcMode.multiply: {
-    //     displayMultipliedNumber();
-    //     break;
-    //   }
-    //   case CalcMode.divide: {
-    //     displayDividedNumber();
-    //     break;
-    //   }
-    // }
+    // update status
     calcModeIsEqualed();
     displayModeIsNotDisplayNumber();
 });
@@ -159,7 +143,16 @@ function calcByCalcMode(calcMode) {
 }
 // C (clear)
 document.getElementById("clear").addEventListener("click", function () {
+    // if click operation button in last, continue to show last number
+    if (displayMode == DisplayMode.displayNumber) {
+        clearDisplay();
+    }
+});
+// AC (all clear)
+document.getElementById("all-clear").addEventListener("click", function () {
+    updateFormerNumber("0");
     clearDisplay();
+    displayNumber("0");
 });
 // calculation
 // A + B

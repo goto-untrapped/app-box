@@ -164,7 +164,17 @@ function calcByCalcMode(calcMode: CalcMode) {
 
 // C (clear)
 document.getElementById("clear")!.addEventListener("click", function () {
+  // if click operation button in last, continue to show last number
+  if (displayMode == DisplayMode.displayNumber) {
+    clearDisplay();
+  }
+});
+
+// AC (all clear)
+document.getElementById("all-clear")!.addEventListener("click", function () {
+  updateFormerNumber("0");
   clearDisplay();
+  displayNumber("0");
 });
 
 // calculation
