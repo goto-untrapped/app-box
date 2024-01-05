@@ -2,19 +2,15 @@
 var CalcMode;
 (function (CalcMode) {
     CalcMode[CalcMode["initialized"] = 0] = "initialized";
-    CalcMode[CalcMode["displayNumber"] = 1] = "displayNumber";
-    CalcMode[CalcMode["add"] = 2] = "add";
-    CalcMode[CalcMode["subtract"] = 3] = "subtract";
-    CalcMode[CalcMode["multiply"] = 4] = "multiply";
-    CalcMode[CalcMode["divide"] = 5] = "divide";
-    CalcMode[CalcMode["equaled"] = 6] = "equaled";
+    CalcMode[CalcMode["add"] = 1] = "add";
+    CalcMode[CalcMode["subtract"] = 2] = "subtract";
+    CalcMode[CalcMode["multiply"] = 3] = "multiply";
+    CalcMode[CalcMode["divide"] = 4] = "divide";
+    CalcMode[CalcMode["equaled"] = 5] = "equaled";
 })(CalcMode || (CalcMode = {}));
 var calcMode = CalcMode.initialized;
 function calcModeIsInitialized() {
     calcMode = CalcMode.initialized;
-}
-function calcModeIsDisplayNumber() {
-    calcMode = CalcMode.displayNumber;
 }
 function calcModeIsAdd() {
     calcMode = CalcMode.add;
@@ -31,6 +27,18 @@ function calcModeIsDivide() {
 function calcModeIsEqualed() {
     calcMode = CalcMode.equaled;
 }
+var DisplayMode;
+(function (DisplayMode) {
+    DisplayMode[DisplayMode["displayNumber"] = 0] = "displayNumber";
+    DisplayMode[DisplayMode["notDisplayNumber"] = 1] = "notDisplayNumber";
+})(DisplayMode || (DisplayMode = {}));
+var displayMode = DisplayMode.notDisplayNumber;
+function displayModeIsDisplayNumber() {
+    displayMode = DisplayMode.displayNumber;
+}
+function displayModeIsNotDisplayNumber() {
+    displayMode = DisplayMode.notDisplayNumber;
+}
 // record former display number
 var formerNumber = 0;
 function updateFormerNumber(inputNumber) {
@@ -40,10 +48,10 @@ function updateFormerNumber(inputNumber) {
 document.querySelectorAll(".input-number").forEach(function (button) {
     button.addEventListener("click", function (event) {
         var target = event.currentTarget;
-        if (calcMode != CalcMode.displayNumber) {
+        if (displayMode != DisplayMode.displayNumber) {
             clearDisplay();
         }
-        calcModeIsDisplayNumber();
+        displayModeIsDisplayNumber();
         var inputNumber = target.textContent;
         removeTopZero();
         displayContinuousNumber(inputNumber);
@@ -54,24 +62,28 @@ document.getElementById("add").addEventListener("click", function () {
     var display = numberDisplay();
     updateFormerNumber(display.value);
     calcModeIsAdd();
+    displayModeIsNotDisplayNumber();
 });
 // -
 document.getElementById("subtract").addEventListener("click", function () {
     var display = numberDisplay();
     updateFormerNumber(display.value);
     calcModeIsSubtract();
+    displayModeIsNotDisplayNumber();
 });
 // ×
 document.getElementById("multiply").addEventListener("click", function () {
     var display = numberDisplay();
     updateFormerNumber(display.value);
     calcModeIsMultiply();
+    displayModeIsNotDisplayNumber();
 });
 // ÷
 document.getElementById("divide").addEventListener("click", function () {
     var display = numberDisplay();
     updateFormerNumber(display.value);
     calcModeIsDivide();
+    displayModeIsNotDisplayNumber();
 });
 // =
 document.getElementById("equal").addEventListener("click", function () {

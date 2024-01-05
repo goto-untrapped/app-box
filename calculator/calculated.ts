@@ -1,7 +1,6 @@
 // for calclation
 enum CalcMode {
   initialized,
-  displayNumber,
   add,
   subtract,
   multiply,
@@ -11,9 +10,6 @@ enum CalcMode {
 let calcMode: CalcMode = CalcMode.initialized;
 function calcModeIsInitialized() {
   calcMode = CalcMode.initialized;
-}
-function calcModeIsDisplayNumber() {
-  calcMode = CalcMode.displayNumber;
 }
 function calcModeIsAdd() {
   calcMode = CalcMode.add;
@@ -31,6 +27,18 @@ function calcModeIsEqualed() {
   calcMode = CalcMode.equaled;
 }
 
+enum DisplayMode {
+  displayNumber,
+  notDisplayNumber,
+}
+let displayMode: DisplayMode = DisplayMode.notDisplayNumber;
+function displayModeIsDisplayNumber() {
+  displayMode = DisplayMode.displayNumber;
+}
+function displayModeIsNotDisplayNumber() {
+  displayMode = DisplayMode.notDisplayNumber;
+}
+
 // record former display number
 let formerNumber: number = 0;
 function updateFormerNumber(inputNumber: String) {
@@ -41,10 +49,10 @@ function updateFormerNumber(inputNumber: String) {
 document.querySelectorAll(".input-number").forEach((button) => {
   button.addEventListener("click", (event) => {
     const target = event.currentTarget! as HTMLElement;
-    if (calcMode != CalcMode.displayNumber) {
+    if (displayMode != DisplayMode.displayNumber) {
       clearDisplay();
     }
-    calcModeIsDisplayNumber();
+    displayModeIsDisplayNumber();
 
     const inputNumber: string = target.textContent!;
     removeTopZero();
@@ -58,6 +66,7 @@ document.getElementById("add")!.addEventListener("click", function () {
   updateFormerNumber(display.value);
 
   calcModeIsAdd();
+  displayModeIsNotDisplayNumber();
 });
 
 // -
@@ -66,6 +75,7 @@ document.getElementById("subtract")!.addEventListener("click", function () {
   updateFormerNumber(display.value);
 
   calcModeIsSubtract();
+  displayModeIsNotDisplayNumber();
 });
 
 // ×
@@ -74,6 +84,7 @@ document.getElementById("multiply")!.addEventListener("click", function () {
   updateFormerNumber(display.value);
 
   calcModeIsMultiply();
+  displayModeIsNotDisplayNumber();
 });
 
 // ÷
@@ -82,6 +93,7 @@ document.getElementById("divide")!.addEventListener("click", function () {
   updateFormerNumber(display.value);
 
   calcModeIsDivide();
+  displayModeIsNotDisplayNumber();
 });
 
 // =
