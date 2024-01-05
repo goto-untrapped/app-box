@@ -71,34 +71,73 @@ function canUpdate(inputNumber) {
 }
 // +
 document.getElementById("add").addEventListener("click", function () {
+    // calc by current situation
+    calcByCalcMode(calcMode);
+    // update situation
     var display = numberDisplay();
     updateFormerNumber(display.value);
+    // update calc status
     calcModeIsAdd();
     displayModeIsNotDisplayNumber();
 });
 // -
 document.getElementById("subtract").addEventListener("click", function () {
+    // calc by current situation
+    calcByCalcMode(calcMode);
+    // update situation
     var display = numberDisplay();
     updateFormerNumber(display.value);
+    // update calc status
     calcModeIsSubtract();
     displayModeIsNotDisplayNumber();
 });
 // ×
 document.getElementById("multiply").addEventListener("click", function () {
+    // calc by current situation
+    calcByCalcMode(calcMode);
+    // update situation
     var display = numberDisplay();
     updateFormerNumber(display.value);
+    // update calc status
     calcModeIsMultiply();
     displayModeIsNotDisplayNumber();
 });
 // ÷
 document.getElementById("divide").addEventListener("click", function () {
+    // calc by current situation
+    calcByCalcMode(calcMode);
+    // update situation
     var display = numberDisplay();
     updateFormerNumber(display.value);
+    // update calc status
     calcModeIsDivide();
     displayModeIsNotDisplayNumber();
 });
 // =
 document.getElementById("equal").addEventListener("click", function () {
+    calcByCalcMode(calcMode);
+    // switch (calcMode) {
+    //   case CalcMode.add: {
+    //     displayAddedNumber();
+    //     break;
+    //   }
+    //   case CalcMode.subtract: {
+    //     displaySubtractedNumber();
+    //     break;
+    //   }
+    //   case CalcMode.multiply: {
+    //     displayMultipliedNumber();
+    //     break;
+    //   }
+    //   case CalcMode.divide: {
+    //     displayDividedNumber();
+    //     break;
+    //   }
+    // }
+    calcModeIsEqualed();
+    displayModeIsNotDisplayNumber();
+});
+function calcByCalcMode(calcMode) {
     switch (calcMode) {
         case CalcMode.add: {
             displayAddedNumber();
@@ -117,9 +156,7 @@ document.getElementById("equal").addEventListener("click", function () {
             break;
         }
     }
-    calcModeIsEqualed();
-    displayModeIsNotDisplayNumber();
-});
+}
 // C (clear)
 document.getElementById("clear").addEventListener("click", function () {
     clearDisplay();

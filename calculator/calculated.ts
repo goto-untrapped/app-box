@@ -77,42 +77,71 @@ function canUpdate(inputNumber: string) {
 
 // +
 document.getElementById("add")!.addEventListener("click", function () {
+  // calc by current situation
+  calcByCalcMode(calcMode);
+
+  // update situation
   const display = numberDisplay();
   updateFormerNumber(display.value);
 
+  // update status
   calcModeIsAdd();
   displayModeIsNotDisplayNumber();
 });
 
 // -
 document.getElementById("subtract")!.addEventListener("click", function () {
+  // calc by current situation
+  calcByCalcMode(calcMode);
+
+  // update situation
   const display = numberDisplay();
   updateFormerNumber(display.value);
 
+  // update status
   calcModeIsSubtract();
   displayModeIsNotDisplayNumber();
 });
 
 // ×
 document.getElementById("multiply")!.addEventListener("click", function () {
+  // calc by current situation
+  calcByCalcMode(calcMode);
+
+  // update situation
   const display = numberDisplay();
   updateFormerNumber(display.value);
 
+  // update status
   calcModeIsMultiply();
   displayModeIsNotDisplayNumber();
 });
 
 // ÷
 document.getElementById("divide")!.addEventListener("click", function () {
+  // calc by current situation
+  calcByCalcMode(calcMode);
+
+  // update situation
   const display = numberDisplay();
   updateFormerNumber(display.value);
 
+  // update status
   calcModeIsDivide();
   displayModeIsNotDisplayNumber();
 });
 
 // =
 document.getElementById("equal")!.addEventListener("click", function () {
+  // calc by current situation
+  calcByCalcMode(calcMode);
+
+  // update status
+  calcModeIsEqualed();
+  displayModeIsNotDisplayNumber();
+});
+
+function calcByCalcMode(calcMode: CalcMode) {
   switch (calcMode) {
     case CalcMode.add: {
       displayAddedNumber();
@@ -131,10 +160,7 @@ document.getElementById("equal")!.addEventListener("click", function () {
       break;
     }
   }
-
-  calcModeIsEqualed();
-  displayModeIsNotDisplayNumber();
-});
+}
 
 // C (clear)
 document.getElementById("clear")!.addEventListener("click", function () {
