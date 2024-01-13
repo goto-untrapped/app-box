@@ -56,10 +56,40 @@ document.querySelectorAll(".input-number").forEach(function (button) {
         removeTopZero();
         var canUpdateNumber = canUpdate(inputNumber);
         if (canUpdateNumber) {
-            displayContinuousNumber(inputNumber);
+            displayContinuousInput(inputNumber);
         }
     });
 });
+// set decimal point to display
+document.querySelectorAll("#point").forEach(function (button) {
+    button.addEventListener("click", function (event) {
+        var target = event.currentTarget;
+        var point = target.textContent;
+        var canAddDecimalPoint = canAddPoint();
+        if (canAddDecimalPoint) {
+            displayContinuousInput(point);
+        }
+    });
+});
+// set sign to display
+document.querySelectorAll("#sign").forEach(function (button) {
+    button.addEventListener("click", function (event) {
+        var display = numberDisplay();
+        var number = Number(display.value) * -1;
+        clearDisplay();
+        displayContinuousInput(String(number));
+    });
+});
+function canAddPoint() {
+    var target = document.getElementById("displayed");
+    if (target.value == "") {
+        return false;
+    }
+    if (/\\*\.{1,}\\*/.test(target.value)) {
+        return false;
+    }
+    return true;
+}
 var MAX_DISPLAY_LENGTH = 8;
 // number length can display <= 8
 function canUpdate(inputNumber) {
@@ -119,7 +149,7 @@ document.getElementById("equal").addEventListener("click", function () {
     calcByCalcMode(calcMode);
     // update status
     calcModeIsEqualed();
-    displayModeIsNotDisplayNumber();
+    displayModeIsDisplayNumber();
 });
 function calcByCalcMode(calcMode) {
     switch (calcMode) {
@@ -196,9 +226,9 @@ function displayNumber(inputNumber) {
     }
     display.value = inputNumber;
 }
-function displayContinuousNumber(inputNumber) {
+function displayContinuousInput(input) {
     var display = numberDisplay();
-    display.value += inputNumber;
+    display.value += input;
 }
 function clearDisplay() {
     var display = numberDisplay();
@@ -210,9 +240,9 @@ function numberDisplay() {
 // format display number: "02" => "2"
 function removeTopZero() {
     var target = document.getElementById("displayed");
-    var regex = /^0+/;
-    var isValid = regex.test(target.value);
-    if (isValid) {
+    var regex = /^0+(?!.)/;
+    var isInvalid = regex.test(target.value);
+    if (isInvalid) {
         var replaced = target.value.replace(/^0+/, "");
         target.value = replaced;
     }

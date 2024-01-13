@@ -58,11 +58,44 @@ document.querySelectorAll(".input-number").forEach((button) => {
     removeTopZero();
     const canUpdateNumber = canUpdate(inputNumber);
     if (canUpdateNumber) {
-      displayContinuousNumber(inputNumber)
+      displayContinuousInput(inputNumber)
     }
-
   })
 })
+
+// set decimal point to display
+document.querySelectorAll("#point").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    const target = event.currentTarget! as HTMLElement;
+    const point: string = target.textContent!;
+    const canAddDecimalPoint = canAddPoint();
+    if (canAddDecimalPoint) {
+      displayContinuousInput(point);
+    }
+  })
+})
+
+// set sign to display
+document.querySelectorAll("#sign").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    const display = numberDisplay();
+    let number: number = Number(display.value) * -1;
+    clearDisplay();
+    displayContinuousInput(String(number));
+  })
+})
+
+function canAddPoint() {
+  const target = document.getElementById("displayed") as HTMLInputElement;
+  if (target.value == "") {
+    return false;
+  }
+  if (/\\*\.{1,}\\*/.test(target.value)) {
+    return false;
+  }
+
+  return true;
+}
 
 const MAX_DISPLAY_LENGTH = 8
 // number length can display <= 8
@@ -138,7 +171,7 @@ document.getElementById("equal")!.addEventListener("click", function () {
 
   // update status
   calcModeIsEqualed();
-  displayModeIsNotDisplayNumber();
+  displayModeIsDisplayNumber();
 });
 
 function calcByCalcMode(calcMode: CalcMode) {
@@ -224,9 +257,9 @@ function displayNumber(inputNumber: string) {
   display.value = inputNumber;
 }
 
-function displayContinuousNumber(inputNumber: string) {
+function displayContinuousInput(input: string) {
   let display = numberDisplay();
-  display.value += inputNumber;
+  display.value += input;
 }
 
 function clearDisplay() {
@@ -241,11 +274,10 @@ function numberDisplay() {
 // format display number: "02" => "2"
 function removeTopZero() {
   const target = document.getElementById("displayed") as HTMLInputElement;
-  const regex = /^0+/;
-  const isValid = regex.test(target.value);
-  if (isValid) {
+  const regex = /^0+(?!.)/;
+  const isInvalid = regex.test(target.value);
+  if (isInvalid) {
     const replaced = target.value.replace(/^0+/, "");
     target.value = replaced;
   }
 }
-
